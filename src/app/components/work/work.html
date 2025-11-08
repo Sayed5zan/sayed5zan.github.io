@@ -1,0 +1,19 @@
+<section class="section work-section" id="work">
+  <div class="container">
+    <h2 class="huge">work.</h2>
+
+    <div class="scroll-container">
+      <div *ngFor="let project of projects" class="project-card">
+        <a [href]="project.github" target="_blank" rel="noopener noreferrer">
+          <img [src]="project.image" [alt]="project.title" />
+          <div class="project-info">
+            <h3>{{ project.title }}</h3>
+            <p>{{ project.role }}</p>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <p class="scroll-hint">← scroll to explore →</p>
+  </div>
+</section>

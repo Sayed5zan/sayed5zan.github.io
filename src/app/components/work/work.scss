@@ -1,0 +1,92 @@
+.work-section {
+  h2 {
+    margin-bottom: 24px;
+  }
+
+  .scroll-container {
+    display: flex;
+    gap: 32px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px;
+  }
+
+  .scroll-container::-webkit-scrollbar {
+    height: 8px;
+  }
+
+  .scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(230, 107, 45, 0.5);
+    border-radius: 8px;
+  }
+
+  .project-card {
+    flex: 0 0 auto;
+    width: 300px;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 2px solid rgba(230, 107, 45, 0.25);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    background: #1c1c1c;
+
+    &:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+    }
+
+    img {
+      width: 100%;
+      height: auto;
+      max-height: 90vh;
+      object-fit: cover;
+    }
+
+    .project-info {
+      padding: 14px 16px;
+
+      h3 {
+        font-size: 18px;
+        font-weight: 600;
+        color: #fff;
+        margin: 0 0 6px;
+      }
+
+      p {
+        font-size: 14px;
+        color: #aaa;
+        margin: 0;
+      }
+    }
+  }
+
+  .scroll-hint {
+    text-align: center;
+    color: var(--muted);
+    font-size: 14px;
+    margin-top: 12px;
+    opacity: 0.7;
+  }
+
+  @media (max-width: 768px) {
+    .project-card {
+      width: 240px;
+
+      img {
+        height: 160px;
+      }
+    }
+  }
+}
+/* --- Apply noir (black & white) effect to project images --- */
+app-work img, 
+.project-card img {
+  filter: grayscale(100%) contrast(1.2);
+  transition: filter 0.4s ease, transform 0.3s ease;
+}
+
+/* Optional: make it color on hover for a dramatic reveal */
+app-work img:hover, 
+.project-card img:hover {
+  filter: grayscale(0%) contrast(1);
+  transform: scale(1.03);
+}
