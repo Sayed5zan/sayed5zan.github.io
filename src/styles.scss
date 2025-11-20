@@ -10,18 +10,27 @@
   --round: 28px;
 }
 
-* { box-sizing: border-box; }
-html, body, app-root { height: 100%; }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+app-root {
+  height: 100%;
+}
+
 body {
   margin: 0;
   font-family: "Inter", "Montserrat", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
   background: var(--bg);
   color: var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   line-height: 1.5;
-  
+
 }
+
 html {
   scroll-behavior: smooth;
 }
@@ -48,19 +57,23 @@ html {
 
 /* button style from mock */
 .btn-outline {
-  display:inline-block;
+  display: inline-block;
   padding: 10px 28px;
   border-radius: 32px;
-  border: 1px solid rgba(230,107,45,0.6);
+  border: 1px solid rgba(230, 107, 45, 0.6);
   color: var(--text);
   background: transparent;
   text-transform: lowercase;
   font-size: 13px;
   margin: 8px;
-  cursor:pointer;
+  cursor: pointer;
   transition: transform .12s ease, box-shadow .12s ease;
 }
-.btn-outline:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.6); }
+
+.btn-outline:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+}
 
 /* section spacing */
 .section {
@@ -81,7 +94,7 @@ html {
   height: 350px;
   object-fit: cover;
   border-radius: 30px;
-  border: 2px solid rgba(230,107,45,0.35);
+  border: 2px solid rgba(230, 107, 45, 0.35);
 }
 
 /* small utilities */
@@ -108,18 +121,90 @@ footer {
 
 /* responsive */
 @media (max-width: 920px) {
-  .two-col, .contact-grid {
+
+  .two-col,
+  .contact-grid {
     grid-template-columns: 1fr;
+    gap: 40px;
   }
-  .project-card img { height: 260px; }
-  .container { padding-top: 20px; }
+
+  .project-card img {
+    height: auto;
+    aspect-ratio: 16/9;
+  }
+
+  .container {
+    padding-top: 20px;
+    width: 90%;
+  }
+
+  .huge {
+    font-size: clamp(32px, 8vw, 56px);
+    /* Adjust for mobile */
+  }
+
+  .section {
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .btn-outline {
+    padding: 8px 20px;
+    font-size: 12px;
+    margin: 4px;
+  }
 }
 
 .full-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* center content vertically */
-  align-items: center;     /* center content horizontally */
+  justify-content: center;
+  /* center content vertically */
+  align-items: center;
+  /* center content horizontally */
   padding: 2rem;
+}
+
+/* Custom Cursor */
+.cursor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: white;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease;
+  will-change: transform;
+
+  @media (hover: none) {
+    display: none;
+    /* Hide on touch devices */
+  }
+}
+
+body.hovering .cursor {
+  transform: translate(-50%, -50%) scale(1.5);
+}
+
+/* Hide default cursor when custom cursor is active (optional, but good for immersion) */
+@media (hover: hover) {
+  body {
+    cursor: none;
+  }
+
+  a,
+  button,
+  .btn-outline,
+  input,
+  textarea,
+  select {
+    cursor: none;
+  }
 }
