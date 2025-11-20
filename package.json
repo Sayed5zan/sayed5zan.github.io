@@ -9,7 +9,7 @@
     "test": "ng test",
     "serve:ssr:faizi-portfolio": "node dist/faizi-portfolio/server/server.mjs",
     "build:prod": "ng build --configuration production",
-    "deploy": "ng build --configuration production && npx gh-pages -d dist/faizi-portfolio/browser"
+    "deploy": "ng build --configuration production && npx gh-pages -d dist/faizi-portfolio"
   },
   "prettier": {
     "printWidth": 100,
