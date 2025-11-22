@@ -1,8 +1,8 @@
-<canvas #canvas class="scribble-canvas"></canvas>
+<canvas #trailCanvas class="trail-canvas"></canvas>
 
-<div class="controls">
-    <button class="control-btn" [class.active]="isDrawingMode" (click)="toggleDrawingMode()">
-        {{ isDrawingMode ? 'Pen On' : 'Pen Off' }}
-    </button>
-    <button class="control-btn" (click)="clearCanvas()">Clear</button>
+<div class="custom-cursor">
+    <div class="cursor-dot" [style.left.px]="cursorDotX" [style.top.px]="cursorDotY">
+    </div>
+    <div class="cursor-outline" [style.left.px]="cursorX" [style.top.px]="cursorY" [class.hovering]="isHovering">
+    </div>
 </div>

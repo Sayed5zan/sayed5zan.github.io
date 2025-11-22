@@ -1,5 +1,16 @@
-import { Component, ElementRef, ViewChild, AfterViewInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, ElementRef, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+
+interface TrailParticle {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    life: number;
+    maxLife: number;
+    size: number;
+    hue: number;
+}
 
 @Component({
     selector: 'app-scribble',
@@ -9,113 +20,142 @@ import { CommonModule } from '@angular/common';
     styleUrls: ['./scribble.scss']
 })
 export class ScribbleComponent implements AfterViewInit, OnDestroy {
-    @ViewChild('canvas') canvasRef!: ElementRef<HTMLCanvasElement>;
+    @ViewChild('trailCanvas') canvasRef!: ElementRef<HTMLCanvasElement>;
+
+    cursorX = 0;
+    cursorY = 0;
+    cursorDotX = 0;
+    cursorDotY = 0;
+    isHovering = false;
+
     private ctx!: CanvasRenderingContext2D;
-    private isDrawing = false;
+    private animationFrame: number | null = null;
+    private particles: TrailParticle[] = [];
     private lastX = 0;
     private lastY = 0;
-
-    private resizeObserver: ResizeObserver | null = null;
-    isDrawingMode = false; // Default to off
+    private velocity = 0;
 
     ngAfterViewInit() {
         const canvas = this.canvasRef.nativeElement;
         this.ctx = canvas.getContext('2d')!;
-
-        // Initial resize
         this.resizeCanvas();
 
-        // Set initial drawing style
-        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)'; // Semi-transparent white
-        this.ctx.lineWidth = 2;
-        this.ctx.lineCap = 'round';
-        this.ctx.lineJoin = 'round';
+        document.addEventListener('mousemove', this.onMouseMove);
+        window.addEventListener('resize', this.resizeCanvas);
+        this.addHoverListeners();
+        this.animate();
 
-        // Observe body size changes
-        if (typeof ResizeObserver !== 'undefined') {
-            this.resizeObserver = new ResizeObserver(() => {
-                this.resizeCanvas();
-            });
-            this.resizeObserver.observe(document.body);
-        }
-
-        // Set initial body class
-        if (this.isDrawingMode) {
-            document.body.classList.add('drawing-active');
-        }
-    }
-
-    toggleDrawingMode() {
-        this.isDrawingMode = !this.isDrawingMode;
-        if (this.isDrawingMode) {
-            document.body.classList.add('drawing-active');
-        } else {
-            document.body.classList.remove('drawing-active');
-        }
+        document.body.style.cursor = 'none';
     }
 
     ngOnDestroy() {
-        if (this.resizeObserver) {
-            this.resizeObserver.disconnect();
+        if (this.animationFrame) {
+            cancelAnimationFrame(this.animationFrame);
         }
+        document.removeEventListener('mousemove', this.onMouseMove);
+        window.removeEventListener('resize', this.resizeCanvas);
+        document.body.style.cursor = 'auto';
     }
 
-    @HostListener('window:resize')
-    resizeCanvas() {
+    private resizeCanvas = () => {
         const canvas = this.canvasRef.nativeElement;
-        // Save current content
-        const tempCanvas = document.createElement('canvas');
-        tempCanvas.width = canvas.width;
-        tempCanvas.height = canvas.height;
-        const tempCtx = tempCanvas.getContext('2d');
-        if (tempCtx) {
-            tempCtx.drawImage(canvas, 0, 0);
-        }
-
-        // Resize to full document size
-        const width = window.innerWidth;
-        const height = window.innerHeight;
-
-        canvas.width = width;
-        canvas.height = height;
-
-        // Ensure CSS size matches attribute size to prevent scaling
-        canvas.style.width = `${width}px`;
-        canvas.style.height = `${height}px`;
-
-        // Restore content
-        this.ctx.drawImage(tempCanvas, 0, 0);
-
-        // Reset styles after resize
-        this.ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-        this.ctx.lineWidth = 2;
-        this.ctx.lineCap = 'round';
-        this.ctx.lineJoin = 'round';
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
 
-    @HostListener('document:mousemove', ['$event'])
-    onMouseMove(e: MouseEvent) {
-        if (!this.ctx || !this.isDrawingMode) return;
+    private onMouseMove = (e: MouseEvent) => {
+        this.cursorDotX = e.clientX;
+        this.cursorDotY = e.clientY;
 
-        // If this is the first move, just set the position
-        if (!this.isDrawing) {
-            this.isDrawing = true;
-            this.lastX = e.pageX;
-            this.lastY = e.pageY;
-            return;
+        const dx = e.clientX - this.lastX;
+        const dy = e.clientY - this.lastY;
+        this.velocity = Math.sqrt(dx * dx + dy * dy);
+
+        if (this.velocity > 0.5) {
+            this.createTrailParticles(e.clientX, e.clientY);
         }
 
-        this.ctx.beginPath();
-        this.ctx.moveTo(this.lastX, this.lastY);
-        this.ctx.lineTo(e.pageX, e.pageY);
-        this.ctx.stroke();
-
-        this.lastX = e.pageX;
-        this.lastY = e.pageY;
+        this.lastX = e.clientX;
+        this.lastY = e.clientY;
     }
 
-    clearCanvas() {
-        const canvas = this.canvasRef.nativeElement;
-        this.ctx.clearRect(0, 0, canvas.width, canvas.height);
+    private createTrailParticles(x: number, y: number) {
+        const particleCount = Math.min(Math.floor(this.velocity / 2), 5);
+
+        for (let i = 0; i < particleCount; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = Math.random() * 0.5;
+            const hue = 15 + Math.random() * 30;
+
+            this.particles.push({
+                x: x + (Math.random() - 0.5) * 10,
+                y: y + (Math.random() - 0.5) * 10,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                life: 1,
+                maxLife: 60 + Math.random() * 40,
+                size: 3 + Math.random() * 4,
+                hue: hue
+            });
+        }
+    }
+
+    private animate = () => {
+        const dx = this.cursorDotX - this.cursorX;
+        const dy = this.cursorDotY - this.cursorY;
+
+        this.cursorX += dx * 0.15;
+        this.cursorY += dy * 0.15;
+
+        this.ctx.clearRect(0, 0, this.canvasRef.nativeElement.width, this.canvasRef.nativeElement.height);
+
+        for (let i = this.particles.length - 1; i >= 0; i--) {
+            const p = this.particles[i];
+
+            p.x += p.vx;
+            p.y += p.vy;
+            p.vx *= 0.95;
+            p.vy *= 0.95;
+            p.life--;
+
+            if (p.life <= 0) {
+                this.particles.splice(i, 1);
+                continue;
+            }
+
+            const alpha = p.life / p.maxLife;
+            const saturation = 80 + Math.random() * 20;
+            const lightness = 50 + Math.random() * 20;
+
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size * alpha, 0, Math.PI * 2);
+            this.ctx.fillStyle = `hsla(${p.hue}, ${saturation}%, ${lightness}%, ${alpha * 0.8})`;
+            this.ctx.fill();
+
+            const gradient = this.ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * alpha * 2);
+            gradient.addColorStop(0, `hsla(${p.hue}, ${saturation}%, ${lightness}%, ${alpha * 0.4})`);
+            gradient.addColorStop(1, `hsla(${p.hue}, ${saturation}%, ${lightness}%, 0)`);
+            this.ctx.fillStyle = gradient;
+            this.ctx.beginPath();
+            this.ctx.arc(p.x, p.y, p.size * alpha * 2, 0, Math.PI * 2);
+            this.ctx.fill();
+        }
+
+        this.animationFrame = requestAnimationFrame(this.animate);
+    }
+
+    private addHoverListeners() {
+        const interactiveSelectors = 'a, button, .btn-outline, .project-card, .game-card, .nav-item';
+        const elements = document.querySelectorAll(interactiveSelectors);
+
+        elements.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                this.isHovering = true;
+            });
+
+            el.addEventListener('mouseleave', () => {
+                this.isHovering = false;
+            });
+        });
     }
 }
