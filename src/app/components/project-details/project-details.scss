@@ -1,0 +1,164 @@
+.details-container {
+    min-height: auto;
+    padding: 20px;
+    background-color: #000;
+    /* Ensure dark background */
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.back-nav {
+    width: 100%;
+    max-width: 800px;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    color: #888;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: #fff;
+
+        .arrow {
+            transform: translateX(-4px);
+        }
+    }
+
+    .arrow {
+        transition: transform 0.3s ease;
+        display: inline-block;
+    }
+}
+
+.project-card {
+    width: 100%;
+    max-width: 800px;
+    background: #111;
+    border: 1px solid #333;
+    border-radius: 24px;
+    padding: 60px;
+    box-sizing: border-box;
+
+    @media (max-width: 768px) {
+        padding: 30px;
+    }
+}
+
+.card-header {
+    display: flex;
+    gap: 20px;
+    color: #666;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.project-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    background: linear-gradient(to right, #fff, #aaa);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+
+    @media (max-width: 768px) {
+        font-size: 2rem;
+    }
+}
+
+.project-role {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 30px;
+
+    .highlight {
+        color: var(--accent, #fff);
+        /* Use accent color if available, else white */
+        font-weight: 600;
+    }
+}
+
+.project-description {
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #aaa;
+    margin-bottom: 40px;
+    max-width: 600px;
+}
+
+.image-container {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 40px;
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+        transition: transform 0.5s ease;
+
+        &:hover {
+            transform: scale(1.02);
+        }
+    }
+}
+
+.mission-section {
+    margin-bottom: 40px;
+
+    h3 {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 1.5rem;
+        color: #fff;
+        margin-bottom: 16px;
+    }
+
+    p {
+        font-family: 'Inter', sans-serif;
+        font-size: 1.1rem;
+        line-height: 1.6;
+        color: #aaa;
+    }
+}
+
+.links-section {
+    border-top: 1px solid #333;
+    padding-top: 30px;
+
+    .github-link {
+        color: #fff;
+        text-decoration: none;
+        font-family: 'Inter', sans-serif;
+        font-size: 1rem;
+        border-bottom: 1px solid #fff;
+        padding-bottom: 2px;
+        transition: opacity 0.3s ease;
+
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}
+
+.not-found {
+    text-align: center;
+    padding: 100px;
+    color: #fff;
+}

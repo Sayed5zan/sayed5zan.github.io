@@ -1,0 +1,12 @@
+<section class="tech-stack-section">
+    <div class="container">
+        <h3 class="huge" style="margin-bottom: 40px; color: var(--accent);">techStack.</h3>
+    </div>
+    <div class="marquee-container">
+        <div class="marquee-track">
+            <div class="tech-item" *ngFor="let tech of displayTechs">
+                <img [src]="tech.icon" [alt]="tech.name" class="tech-icon" />
+            </div>
+        </div>
+    </div>
+</section>

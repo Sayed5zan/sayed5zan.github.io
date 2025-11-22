@@ -1,0 +1,8 @@
+<canvas #canvas class="scribble-canvas"></canvas>
+
+<div class="controls">
+    <button class="control-btn" [class.active]="isDrawingMode" (click)="toggleDrawingMode()">
+        {{ isDrawingMode ? 'Pen On' : 'Pen Off' }}
+    </button>
+    <button class="control-btn" (click)="clearCanvas()">Clear</button>
+</div>

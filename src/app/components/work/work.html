@@ -4,7 +4,7 @@
 
     <div class="scroll-container">
       <div *ngFor="let project of projects" class="project-card">
-        <a [href]="project.github" target="_blank" rel="noopener noreferrer">
+        <a [routerLink]="['/projects', project.id]" class="project-link">
           <img [src]="project.image" [alt]="project.title" />
           <div class="project-info">
             <h3>{{ project.title }}</h3>

@@ -1,0 +1,43 @@
+<section class="playground-section">
+    <div class="container">
+        <!-- Debug -->
+        <!-- Debug -->
+        <!-- <p style="color: red; position: absolute; top: 100px; left: 20px; z-index: 9999;">Playground Loaded</p> -->
+
+        <div class="nav-header">
+            <a routerLink="/" class="back-home-btn">← Back to Home</a>
+        </div>
+
+        <h2 class="huge text-center">playground.</h2>
+
+        <!-- Game Menu -->
+        <div class="game-menu" *ngIf="activeGame === 'menu'">
+            <div class="game-card" (click)="selectGame('tictactoe')">
+                <div class="game-icon">❌⭕</div>
+                <h3>Tic-Tac-Toe</h3>
+                <p>Classic strategy game against computer.</p>
+            </div>
+
+            <div class="game-card" (click)="selectGame('snake')">
+                <div class="game-icon">🐍</div>
+                <h3>Snake</h3>
+                <p>Eat the food, grow longer, don't hit the wall!</p>
+            </div>
+
+            <div class="game-card" (click)="selectGame('whackabug')">
+                <div class="game-icon">🐛</div>
+                <h3>Whack-a-Bug</h3>
+                <p>Squash the bugs before the time runs out!</p>
+            </div>
+        </div>
+
+        <!-- Active Game View -->
+        <div class="game-container" *ngIf="activeGame !== 'menu'">
+            <button class="back-btn" (click)="backToMenu()">← Back to Menu</button>
+
+            <app-tic-tac-toe *ngIf="activeGame === 'tictactoe'"></app-tic-tac-toe>
+            <app-snake *ngIf="activeGame === 'snake'"></app-snake>
+            <app-whack-a-bug *ngIf="activeGame === 'whackabug'"></app-whack-a-bug>
+        </div>
+    </div>
+</section>

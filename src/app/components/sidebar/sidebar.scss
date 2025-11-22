@@ -1,0 +1,114 @@
+.sidebar {
+    position: fixed;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(10, 10, 10, 0.6);
+    /* More transparent/glassy */
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 16px 8px;
+    border-radius: 50px;
+    /* Pill shape */
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 1000;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    /* Softer shadow */
+    width: 68px;
+    /* Collapsed width */
+    transition: width 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+    /* Elegant easing */
+    overflow: hidden;
+
+    &:hover {
+        width: 260px;
+        /* Expanded width */
+        background: rgba(10, 10, 10, 0.85);
+        /* Slightly darker on hover for readability */
+
+        .label {
+            opacity: 1;
+            transform: translateX(0);
+            transition-delay: 0.1s;
+        }
+
+        .icon {
+            color: var(--accent, #e66b2d);
+        }
+    }
+
+    @media (max-width: 768px) {
+        display: none;
+    }
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    /* Tighter gap */
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    color: #888;
+    text-decoration: none;
+    border-radius: 40px;
+    transition: all 0.3s ease;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    height: 52px;
+    /* Fixed height for consistency */
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
+
+        .icon {
+            color: #fff;
+            transform: scale(1.1);
+        }
+    }
+
+    &.active {
+        background: transparent;
+        color: #fff;
+
+        .icon {
+            color: var(--accent, #e66b2d);
+        }
+    }
+}
+
+.icon-box {
+    width: 52px;
+    /* Matches collapsed width minus padding roughly */
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    /* Prevent shrinking */
+}
+
+.icon {
+    font-size: 24px;
+    color: #999;
+    transition: all 0.3s ease;
+}
+
+.label {
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    padding-right: 20px;
+}

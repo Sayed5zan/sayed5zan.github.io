@@ -1,0 +1,31 @@
+<nav class="sidebar">
+    <ul class="menu-list">
+        <li *ngFor="let item of menuItems">
+            <!-- Internal Link -->
+            <a *ngIf="item.type === 'internal'" [routerLink]="item.link" [fragment]="item.fragment"
+                [class.active]="activeFragment === item.fragment" class="menu-item">
+                <div class="icon-box">
+                    <span class="material-symbols-rounded icon">{{ item.icon }}</span>
+                </div>
+                <span class="label">{{ item.label }}</span>
+            </a>
+
+            <!-- External Link -->
+            <a *ngIf="item.type === 'external'" [href]="item.link" target="_blank" rel="noopener noreferrer"
+                class="menu-item">
+                <div class="icon-box">
+                    <span class="material-symbols-rounded icon">{{ item.icon }}</span>
+                </div>
+                <span class="label">{{ item.label }}</span>
+            </a>
+
+            <!-- Download Link -->
+            <a *ngIf="item.type === 'download'" [href]="item.link" download class="menu-item">
+                <div class="icon-box">
+                    <span class="material-symbols-rounded icon">{{ item.icon }}</span>
+                </div>
+                <span class="label">{{ item.label }}</span>
+            </a>
+        </li>
+    </ul>
+</nav>

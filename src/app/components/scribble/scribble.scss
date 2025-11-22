@@ -1,0 +1,49 @@
+.scribble-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    /* width and height are set in JS to match document size */
+    pointer-events: none;
+    pointer-events: none;
+    /* Allow clicks to pass through */
+    z-index: 9998;
+    /* High z-index but below clear button */
+}
+
+.controls {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    gap: 10px;
+}
+
+.control-btn {
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 20px;
+    cursor: pointer;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    min-width: 80px;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: scale(1.05);
+    }
+
+    &:active {
+        transform: scale(0.95);
+    }
+
+    &.active {
+        background: rgba(230, 107, 45, 0.8);
+        /* Orange accent when active */
+        border-color: rgba(230, 107, 45, 1);
+    }
+}

@@ -1,0 +1,42 @@
+<div class="details-container" *ngIf="project">
+    <div class="back-nav">
+        <a routerLink="/" fragment="work" class="back-btn">
+            <span class="arrow">←</span> Back
+        </a>
+    </div>
+
+    <div class="project-card">
+        <div class="card-header">
+            <span class="category">{{ project.category }}</span>
+            <span class="date">{{ project.date }}</span>
+        </div>
+
+        <h1 class="project-title">{{ project.title }}</h1>
+
+        <p class="project-role">
+            <span class="highlight">Role:</span> {{ project.role }}
+        </p>
+
+        <div class="project-description">
+            <p>{{ project.description }}</p>
+        </div>
+
+        <div class="image-container">
+            <img [src]="project.image" [alt]="project.title" />
+        </div>
+
+        <div class="mission-section" *ngIf="project.mission">
+            <h3>The Mission</h3>
+            <p>{{ project.mission }}</p>
+        </div>
+
+        <div class="links-section">
+            <a [href]="project.github" target="_blank" class="github-link">View on GitHub ↗</a>
+        </div>
+    </div>
+</div>
+
+<div class="not-found" *ngIf="!project">
+    <h2>Project not found</h2>
+    <a routerLink="/" class="back-btn">Return Home</a>
+</div>

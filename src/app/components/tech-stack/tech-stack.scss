@@ -1,0 +1,118 @@
+.tech-stack-section {
+    padding: 60px 0;
+    overflow: hidden;
+    background: var(--bg);
+}
+
+.text-center {
+    text-align: center;
+    margin-bottom: 40px;
+    color: var(--accent);
+}
+
+.marquee-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    /* Allow manual scrolling */
+    overflow-y: hidden;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+
+    /* Hide scrollbar */
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+
+    /* IE/Edge */
+    &::-webkit-scrollbar {
+        display: none;
+        /* Chrome/Safari */
+    }
+}
+
+.marquee-track {
+    display: flex;
+    gap: 60px;
+    /* Space between items */
+    width: max-content;
+    animation: scroll 30s linear infinite;
+    padding: 20px 0;
+
+    &:hover {
+        animation-play-state: paused;
+    }
+}
+
+.tech-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding: 16px 32px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s ease;
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        transform: translateY(-5px);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.tech-icon {
+    height: 40px;
+    width: auto;
+    opacity: 0.6;
+    /* Start dimmed */
+    transition: all 0.3s ease;
+
+    &.invert-icon {
+        filter: brightness(0) invert(1);
+    }
+}
+
+.tech-item:hover .tech-icon {
+    opacity: 1;
+    /* Full brightness on hover */
+    transform: scale(1.1);
+}
+
+.tech-name {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 1.2rem;
+    color: #888;
+    white-space: nowrap;
+}
+
+@keyframes scroll {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+        /* Move by half the width (since we duplicated the list) */
+    }
+}
+
+@media (max-width: 768px) {
+    .marquee-track {
+        gap: 40px;
+        animation-duration: 20s;
+        /* Faster on mobile */
+    }
+
+    .tech-item {
+        padding: 8px 16px;
+    }
+
+    .tech-name {
+        font-size: 1rem;
+    }
+}
